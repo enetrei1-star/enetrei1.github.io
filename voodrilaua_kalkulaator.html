@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voodrilaua hinnakalkulaator</title>
+<style>
+  :root{--bg:#f4f5f2;--card:#fff;--ink:#202721;--muted:#68736b;--line:#dfe5de;--green:#285a43;--green2:#e7f0e9;--accent:#d18a43;--shadow:0 10px 30px rgba(26,44,32,.08)}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink)}
+  .wrap{max-width:1040px;margin:auto;padding:28px 18px 48px}.hero{background:linear-gradient(130deg,#243d30,#426b50);color:white;border-radius:22px;padding:28px 30px;margin-bottom:20px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;right:-45px;bottom:-115px;width:300px;height:300px;border:1px solid #ffffff22;border-radius:50%;box-shadow:0 0 0 35px #ffffff0a,0 0 0 70px #ffffff08}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;opacity:.78}.hero h1{font-size:clamp(26px,4vw,38px);margin:9px 0}.hero p{margin:0;color:#e2eae4;max-width:620px;line-height:1.5}.layout{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}h2{font-size:18px;margin:0 0 16px}.field{margin-bottom:15px}.field label{display:block;font-size:13px;font-weight:650;margin-bottom:7px}.field input,.field select{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:11px;background:white;color:var(--ink);font:inherit;outline:none}.field input:focus,.field select:focus{border-color:var(--green);box-shadow:0 0 0 3px #285a4316}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px}.smallhelp{font-size:12px;color:var(--muted);line-height:1.45;margin-top:6px}.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.seg button{border:1px solid var(--line);border-radius:10px;background:white;padding:10px 6px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink)}.seg button.active{background:var(--green);border-color:var(--green);color:white}.result-top{background:var(--green2);border-radius:15px;padding:18px;margin-bottom:14px}.total-label{font-size:13px;color:#4b6253}.total{font-size:clamp(30px,5vw,40px);font-weight:800;letter-spacing:-.03em;margin:3px 0}.subprice{font-size:13px;color:#506254}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{border:1px solid var(--line);border-radius:13px;padding:13px}.stat .label{font-size:12px;color:var(--muted)}.stat .value{font-size:21px;font-weight:750;margin-top:4px}.breakdown{margin-top:16px;border-top:1px solid var(--line);padding-top:13px}.rowline{display:flex;justify-content:space-between;gap:12px;padding:8px 0;font-size:14px}.rowline span:last-child{font-weight:650;text-align:right}.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:14px}.footer{margin-top:18px;font-size:12px;color:var(--muted);text-align:center}.footer a{color:var(--green)}.reset{margin-top:12px;border:0;background:transparent;color:var(--green);font-weight:650;text-decoration:underline;cursor:pointer;padding:5px}.material{display:flex;gap:9px;align-items:flex-start;background:#f8faf8;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:15px}.material strong{display:block;font-size:14px}.material span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+  @media(max-width:760px){.wrap{padding:16px 12px 32px}.hero{padding:23px 20px}.layout{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Materjali kalkulaator</div>
+    <h1>Voodrilaua hinnakalkulaator</h1>
+    <p>Arvuta lae vooderdamiseks vajalik materjal ja ligikaudne maksumus. Muuda mõõte, toodet, laua pikkust või varu ning tulemus uuendatakse automaatselt.</p>
+  </header>
+  <main class="layout">
+    <section class="card">
+      <h2>Lae ja materjali valikud</h2>
+      <div class="twocol">
+        <div class="field"><label for="dimA">Lae pikkus (m)</label><input id="dimA" type="number" min="0.1" step="0.01" value="6.3"></div>
+        <div class="field"><label for="dimB">Lae laius (m)</label><input id="dimB" type="number" min="0.1" step="0.01" value="4.2"></div>
+      </div>
+      <div class="field"><label for="product">Voodrilaua toode</label><select id="product"></select></div>
+      <div class="material" id="materialInfo"><div>🪵</div><div><strong id="materialName"></strong><span id="materialDesc"></span></div></div>
+      <div class="field"><label for="boardLength">Laua pikkus</label><select id="boardLength">
+        <option value="3">3,0 m</option><option value="3.3">3,3 m</option><option value="3.6">3,6 m</option><option value="3.9">3,9 m</option><option value="4.2" selected>4,2 m</option><option value="4.5">4,5 m</option><option value="4.8">4,8 m</option><option value="5.1">5,1 m</option><option value="5.4">5,4 m</option><option value="5.7">5,7 m</option><option value="6">6,0 m</option>
+      </select><div class="smallhelp">Vali laua pikkus. Arvutus eeldab, et lauad jooksevad valitud paigaldussuunas ning pikkuse katmiseks võib vaja minna mitut lauat.</div></div>
+      <div class="field"><label>Materjali varu</label><div class="seg" id="wasteChoices"><button type="button" data-waste="5">5%</button><button type="button" data-waste="10" class="active">10%</button><button type="button" data-waste="15">15%</button><button type="button" data-waste="20">20%</button></div></div>
+      <div class="field"><label for="price">Hind (€/m², KM-ga)</label><input id="price" type="number" min="0" step="0.01" placeholder="Toote vaikimisi hind"></div>
+      <div class="field"><label for="direction">Lauad paigaldatakse</label><select id="direction"><option value="A">6,3 m suunas (piki lae)</option><option value="B">4,2 m suunas (risti lae)</option></select><div class="smallhelp">See muudab arvestuslikku ridade ja lauatükkide arvu.</div></div>
+      <button class="reset" id="reset">Taasta algmõõdud ja valikud</button>
+    </section>
+    <section class="card">
+      <h2>Kalkulatsiooni tulemus</h2>
+      <div class="result-top"><div class="total-label">Hinnanguline materjali kogumaksumus</div><div class="total" id="totalPrice">—</div><div class="subprice" id="priceDetail"></div></div>
+      <div class="stats">
+        <div class="stat"><div class="label">Lae pindala</div><div class="value" id="area">—</div></div>
+        <div class="stat"><div class="label">Koos varuga</div><div class="value" id="areaPlus">—</div></div>
+        <div class="stat"><div class="label">Voodrilaua read</div><div class="value" id="rows">—</div></div>
+        <div class="stat"><div class="label">Arvestuslik lauakogus</div><div class="value" id="boards">—</div></div>
+      </div>
+      <div class="breakdown">
+        <div class="rowline"><span>Valitud voodrilaud</span><span id="chosenProduct">—</span></div>
+        <div class="rowline"><span>Katvaks laiuseks arvestatud</span><span id="coverWidth">—</span></div>
+        <div class="rowline"><span>Hind</span><span id="unitPrice">—</span></div>
+        <div class="rowline"><span>Varu</span><span id="wasteLabel">—</span></div>
+      </div>
+      <p class="note">Tulemus on materjali eelarvestamise hinnang. Lauatükkide arv on arvutatud ridade ja valitud laua pikkuse järgi; tegelik lõikeplaan, otsajätkud, laua suund, sorteerimine ja tootja pakendipikkused võivad kogust muuta. Kontrolli enne ostu toote hetkehinda ning katvat laiust müüja lehel.</p>
+    </section>
+  </main>
+  <div class="footer">Tooteandmete algväärtused on näidisena sisestatud ja muudetavad. <a href="https://ehituspuit.ee/product-category/voodrilauad/" target="_blank" rel="noopener">Vaata voodrilaudade valikut Ehituspuidu lehel</a>.</div>
+</div>
+<script>
+const products=[
+ {name:"STP-J 12×120 C MÄ",width:120,cover:110,price:6.76,length:3.9,desc:"Soodne, C-klass, mänd"},
+ {name:"TGV 14×146 BC mänd",width:146,cover:137,price:8.59,length:4.2,desc:"Lai mänd, BC"},
+ {name:"STP0 14×121 BC KU",width:121,cover:110,price:7.33,length:4.2,desc:"Soodne BC laud"},
+ {name:"Fase 19×146 AB ku",width:146,cover:137,price:16.29,length:4.2,desc:"Faasitud serv, AB"},
+ {name:"STV 12×96 AB KU",width:96,cover:87,price:13.13,length:4.2,desc:"Kitsam laud, AB"},
+ {name:"STA 21×145 AB ku",width:145,cover:137,price:18.10,length:4.2,desc:"AB kvaliteet, paksem laud"}
+];
+const $=id=>document.getElementById(id); let selectedWaste=10;
+const fmt=(n,d=2)=>Number(n).toLocaleString('et-EE',{minimumFractionDigits:d,maximumFractionDigits:d});
+products.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${p.name} · ${fmt(p.price)} €/m²`;$('product').appendChild(o)});
+function calc(){
+ const p=products[+$('product').value||0];const a=Math.max(0,parseFloat($('dimA').value)||0);const b=Math.max(0,parseFloat($('dimB').value)||0);const area=a*b;const waste=selectedWaste/100;const areaExtra=area*(1+waste);const priceInput=$('price').value;const price=priceInput===''?p.price:Math.max(0,parseFloat(priceInput)||0);const length=Math.max(.01,parseFloat($('boardLength').value)||4.2);const direction=$('direction').value;const rowSpan=direction==='A'?b:a;const boardRun=direction==='A'?a:b;const rows=Math.ceil(rowSpan/(p.cover/1000));const piecesPerRow=Math.ceil(boardRun/length);const boardCount=rows*piecesPerRow;const total=areaExtra*price;
+ $('materialName').textContent=p.name;$('materialDesc').textContent=`${p.desc} · nominaallaius ${p.width} mm · kattev laius ${p.cover} mm`;
+ $('totalPrice').textContent=total.toLocaleString('et-EE',{style:'currency',currency:'EUR'});$('priceDetail').textContent=`${fmt(areaExtra)} m² × ${fmt(price)} €/m² (sisaldab ${selectedWaste}% varu)`;
+ $('area').textContent=fmt(area)+' m²';$('areaPlus').textContent=fmt(areaExtra)+' m²';$('rows').textContent=rows.toLocaleString('et-EE');$('boards').textContent=boardCount.toLocaleString('et-EE')+' tk';$('chosenProduct').textContent=p.name;$('coverWidth').textContent=p.cover+' mm';$('unitPrice').textContent=fmt(price)+' €/m²';$('wasteLabel').textContent=selectedWaste+'%';
+}
+$('product').addEventListener('change',()=>{$('price').value='';calc()});['dimA','dimB','boardLength','price','direction'].forEach(id=>$(id).addEventListener('input',calc));
+document.querySelectorAll('[data-waste]').forEach(btn=>btn.addEventListener('click',()=>{selectedWaste=+btn.dataset.waste;document.querySelectorAll('[data-waste]').forEach(b=>b.classList.toggle('active',b===btn));calc()}));
+$('reset').addEventListener('click',()=>{$('dimA').value='6.3';$('dimB').value='4.2';$('product').value='0';$('boardLength').value='4.2';$('price').value='';$('direction').value='A';selectedWaste=10;document.querySelectorAll('[data-waste]').forEach(b=>b.classList.toggle('active',b.dataset.waste==='10'));calc()});calc();
+</script>
+</body>
+</html>
